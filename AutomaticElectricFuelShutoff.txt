@@ -1,0 +1,35 @@
+#define TILT 2 // pin 2 for front-left sensor 
+#include <Servo.h> 
+ 
+ 
+Servo myservo;  // create servo object to control a servo 
+ 
+int potpin = A0;  // analog pin used to connect the potentiometer 
+int val;    // variable to read the value from the analog pin 
+ // Tilt Sensor code for Robojax.com 
+void setup() { 
+  Serial.begin(9600); 
+  Serial.println("Robojax Tilt Test"); 
+  pinMode(TILT, INPUT);//define Data input pin input pin 
+  myservo.attach(9);  
+} 
+ 
+void loop() { 
+    // Tilt Sensor code for Robojax.com 
+  int TILT_SENSED = digitalRead(TILT);// read TILT sensor 
+ 
+  // if tilt is sensed 
+  if( TILT_SENSED ==LOW) 
+  {// set the LED pin HIGH and buzzer will buzz 
+    Serial.println("Tilt detected"); 
+    val = analogRead(potpin);            // reads the value of the potentiometer (value between 0 and 1023) 
+    val = map(val, 0, 1023, 0,90);     // scale it for use with the servo (value between 0 and 180) 
+    myservo.write(val);                  // sets the servo position according to the scaled value 
+    delay(15);     
+  }else{ 
+  // Set the LED pin LOW to turn it OFF or buzzer OFF 
+    Serial.println("Normal"); 
+  } 
+ 
+  delay(200); 
+}
